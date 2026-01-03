@@ -1,0 +1,10 @@
+x = 10
+y = 20
+z = 30
+result = x + y * z
+
+multip = x + z * y
+v2 = y + z * x
+print result
+print multip
+print v2
