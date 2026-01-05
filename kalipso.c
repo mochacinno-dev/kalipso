@@ -1,17 +1,6 @@
 /*
- * Kalipso Language - A minimal compiled language simpler than C
- * 
- * Features:
- * - Only one type: int (64-bit)
- * - Simple syntax: no semicolons, no types in declarations
- * - Built-in print and input functions
- * - Direct compilation to C (transpiler)
- * 
- * Example Kalipso program (.kpso):
- *   x = 5
- *   y = 10
- *   result = x + y
- *   print result
+ * KALIPSO
+ * Made by Camila "Mocha" Rose
  */
 
 #include <stdio.h>
@@ -151,13 +140,13 @@ void compile_line(char *line) {
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {
-        printf("Usage: %s <input.kpso>\n", argv[0]);
+        printf("Usage: %s <file.kpso>\n", argv[0]);
         return 1;
     }
     
     FILE *in = fopen(argv[1], "r");
     if (!in) {
-        perror("Failed to open input file");
+        perror("Failed to open the file prompted");
         return 1;
     }
     
@@ -218,7 +207,6 @@ int main(int argc, char *argv[]) {
     
     fclose(out);
     
-    printf("Generated C code: %s\n", output);
     printf("Compiling...\n");
     
     // Compile the C file to executable
@@ -232,15 +220,13 @@ int main(int argc, char *argv[]) {
     snprintf(exe_name, sizeof(exe_name), "%s", base_name);
     snprintf(compile_cmd, sizeof(compile_cmd), "gcc %s -o %s", output, exe_name);
 #endif
-    
     int result = system(compile_cmd);
     if (result != 0) {
         fprintf(stderr, "Compilation failed!\n");
         return 1;
     }
     
-    printf("Success! Created executable: %s\n", exe_name);
-    printf("Run with: ./%s\n", exe_name);
-    
+    printf("Output: %s\n", exe_name);
+    remove(output);
     return 0;
 }
